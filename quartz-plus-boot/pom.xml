@@ -6,10 +6,11 @@
   <parent>
     <groupId>io.github.unionj-cloud</groupId>
     <artifactId>quartz-plus</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
 
   <artifactId>quartz-plus-boot</artifactId>
+  <name>quartz-plus-boot</name>
 
   <dependencies>
     <dependency>
@@ -39,7 +40,7 @@
     <dependency>
       <groupId>io.github.unionj-cloud</groupId>
       <artifactId>quartz-plus-core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.1</version>
     </dependency>
 
     <dependency>
