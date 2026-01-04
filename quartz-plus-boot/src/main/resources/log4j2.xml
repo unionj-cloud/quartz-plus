@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Configuration status: Controls log4j2 internal logging output.
+  Can be omitted. When set to trace, you'll see detailed internal log4j2 output.
+  monitorInterval: Log4j2 can automatically detect configuration file changes and reconfigure itself.
+  Set the interval in seconds.
+-->
+<configuration monitorInterval="5" status="WARN">
+  <!-- Log level priority order: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+  <!-- Properties configuration -->
+  <Properties>
+    <!--
+      Pattern format:
+      %d: date/time
+      %t: thread name
+      %-5level: log level, left-aligned, 5 characters wide
+      %logger{36}: logger name, max 36 characters
+      %msg: log message
+      %n: newline
+      %X{traceId}: MDC trace ID
+    -->
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%style{%t}{cyan}] %highlight{%-5level}{FATAL=red bright, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=blue} %style{%logger{36}}{bright,blue} - %X{traceId} %msg%n"/>
+    <property name="LOG_CHARSET">UTF-8</property>
+  </Properties>
+
+  <appenders>
+    <!-- Console appender for standard output -->
+    <Console name="Console" target="SYSTEM_OUT" follow="true">
+      <!-- Log output pattern -->
+      <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" charset="${LOG_CHARSET}" disableAnsi="false"/>
+      <!--
+        ThresholdFilter: Only output logs at specified level and above (onMatch=ACCEPT),
+        reject others (onMismatch=DENY)
+        Uncomment to filter console output by level
+      -->
+      <!-- <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/> -->
+    </Console>
+  </appenders>
+
+  <!--
+    Logger nodes are used to specify logging behavior for specific packages or classes.
+    For example, to set different log levels for classes under specific packages.
+    Only appenders that are defined and referenced in loggers will take effect.
+  -->
+  <loggers>
+
+    <!-- Filter out unnecessary DEBUG information from MyBatis -->
+    <Logger name="org.mybatis" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+    
+    <!-- Suppress ClientAbortException logs (common in web applications) -->
+    <Logger name="org.apache.catalina.connector.ClientAbortException" level="off" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+    
+    <!--
+      Monitor Spring framework information.
+      If additivity is set to false, child loggers will only output to their own appenders
+      and will not output to parent logger's appenders.
+    -->
+    <Logger name="org.springframework" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+
+    <!-- Root logger: All loggers inherit from this unless additivity is false -->
+    <Root level="info">
+      <AppenderRef ref="Console"/>
+    </Root>
+
+  </loggers>
+
+</configuration>
