@@ -22,40 +22,43 @@ import lombok.Data;
 public class SchedulerConfig {
 
     /**
-     * 是否启用该调度器
+     * Whether to enable this scheduler
      */
     private Boolean enabled = false;
 
     /**
-     * 调度器实例名称
+     * Scheduler instance name
      */
     private String instanceName;
 
     /**
-     * 线程池线程数
+     * Thread pool thread count
      */
     private Integer threadCount = 3;
 
     /**
-     * 线程名称前缀
+     * Thread name prefix
      */
     private String threadNamePrefix;
 
     /**
-     * 数据库表前缀
+     * Database table prefix
      */
     private String tablePrefix;
 
     /**
-     * 是否开启集群模式
+     * Whether to enable cluster mode
      */
     private Boolean clustered = false;
 
     /**
-     * 调度器描述
+     * Scheduler description
      */
     private String description;
 
+    /**
+     * Whether to start automatically
+     */
     private Boolean autoStartup = false;
 
 }
