@@ -53,3 +53,5 @@ arthas-output
 
 */*.txt
 **/*.md
+!README.md
+!README_zh.md
