@@ -12,7 +12,7 @@
 
   <groupId>io.github.unionj-cloud</groupId>
   <artifactId>quartz-plus</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>quartz-plus</name>
   <description>A library to enhance quartz with multiple SchedulerFactoryBeans to have multiple independent job queues</description>
