@@ -22,8 +22,10 @@ import org.quartz.TriggerListener;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
+import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.core.env.Environment;
@@ -42,18 +44,20 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
 
     @Autowired
     private QuartzProperties quartzProperties;
-    @Autowired
+    @Autowired(required = false)
     private DataSource dataSource;
     @Autowired(required = false)
     private JobListener jobsListener;
     @Autowired(required = false)
     private TriggerListener triggersListener;
-    @Autowired
+    @Autowired(required = false)
     private PlatformTransactionManager transactionManager;
     @Autowired
     private ApplicationContext applicationContext;
     @Autowired
     private Environment environment;
+    @Autowired
+    private ObjectProvider<SchedulerFactoryBeanCustomizer> customizers;
 
     private SchedulerFactoryBean schedulerFactoryBean;
 
@@ -100,8 +104,13 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         schedulerFactoryBean.setApplicationContext(applicationContext);
 
         // DataSource and transaction manager
-        schedulerFactoryBean.setDataSource(dataSource);
-        schedulerFactoryBean.setTransactionManager(transactionManager);
+        if (Objects.nonNull(dataSource)) {
+            schedulerFactoryBean.setDataSource(dataSource);
+        }
+        if (Objects.nonNull(transactionManager)) {
+            schedulerFactoryBean.setTransactionManager(transactionManager);
+        }
+        
         schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContext");
 
         // Listener configuration
@@ -133,6 +142,7 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         properties.setProperty("org.quartz.jobStore.isClustered", String.valueOf(config.getClustered()));
 
         schedulerFactoryBean.setQuartzProperties(properties);
+        customizers.orderedStream().forEach((customizer) -> customizer.customize(schedulerFactoryBean));
 
         log.info("Created scheduler: {} - type: {}, thread count: {}, table prefix: {}, clustered: {}, auto startup: {}",
             schedulerName, config.getDescription(), config.getThreadCount(),
