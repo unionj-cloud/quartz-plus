@@ -18,14 +18,16 @@ package quartzplus.core;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import quartzplus.core.service.QuartzPlusBaseService;
 import quartzplus.core.service.impl.DefaultQuartzPlusBaseServiceImpl;
 
-
 @Configuration
+@Import(QuartzProperties.class)
 @RequiredArgsConstructor
 public class QuartzPlusCoreAutoConfiguration {
 
