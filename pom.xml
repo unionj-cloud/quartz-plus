@@ -12,7 +12,7 @@
 
   <groupId>io.github.unionj-cloud</groupId>
   <artifactId>quartz-plus</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>quartz-plus</name>
   <description>A library to enhance quartz with multiple SchedulerFactoryBeans to have multiple independent job queues</description>
@@ -124,6 +124,11 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>${commons-io.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.opentelemetry.instrumentation</groupId>
+        <artifactId>opentelemetry-quartz-2.0</artifactId>
+        <version>2.23.0-alpha</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

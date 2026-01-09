@@ -16,6 +16,8 @@
  */
 package quartzplus.core.spring;
 
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.instrumentation.quartz.v2_0.QuartzTelemetry;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobListener;
 import org.quartz.TriggerListener;
@@ -58,6 +60,8 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
     private Environment environment;
     @Autowired
     private ObjectProvider<SchedulerFactoryBeanCustomizer> customizers;
+    @Autowired(required = false)
+    private OpenTelemetry openTelemetry;
 
     private SchedulerFactoryBean schedulerFactoryBean;
 
@@ -71,6 +75,11 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         QuartzUtils.addSchedulerFactoryBean(jobBeanClass.getName(), schedulerFactoryBean);
 
         schedulerFactoryBean.afterPropertiesSet();
+
+        if (Objects.nonNull(openTelemetry)) {
+            QuartzTelemetry quartzTelemetry = QuartzTelemetry.create(openTelemetry);
+            quartzTelemetry.configure(schedulerFactoryBean.getScheduler());
+        }
     }
 
     @Override
@@ -110,7 +119,7 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         if (Objects.nonNull(transactionManager)) {
             schedulerFactoryBean.setTransactionManager(transactionManager);
         }
-        
+
         schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContext");
 
         // Listener configuration
