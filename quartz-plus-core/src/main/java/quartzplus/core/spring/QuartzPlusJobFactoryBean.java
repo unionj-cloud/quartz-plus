@@ -72,6 +72,9 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
     @Override
     public void afterPropertiesSet() throws Exception {
         schedulerFactoryBean = createSchedulerFactoryBean(jobBeanClass, applicationContext);
+        if (Objects.isNull(schedulerFactoryBean)) {
+            return;
+        }
         QuartzUtils.addSchedulerFactoryBean(jobBeanClass.getName(), schedulerFactoryBean);
 
         schedulerFactoryBean.afterPropertiesSet();
@@ -94,6 +97,9 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
 
     private SchedulerFactoryBean createSchedulerFactoryBean(Class jobBeanClass, ApplicationContext applicationContext) throws Exception {
         SchedulerConfig config = loadSchedulerConfig(jobBeanClass);
+        if (!config.getEnabled()) {
+            return null;
+        }
 
         // Use default value if instance name is not configured
         String schedulerName = config.getInstanceName() != null ? config.getInstanceName() : jobBeanClass.getSimpleName() + "Scheduler";

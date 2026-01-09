@@ -30,10 +30,15 @@ public class AppConfig implements ApplicationListener<ApplicationReadyEvent> {
 //            }
 //        });
 
-        JobRequest jobRequest = new JobRequest();
-        jobRequest.setJobName("testSimpleJobA" + UUID.randomUUID());
-        jobRequest.setJobClass("quartzplus.boot.job.TestSimpleJobA");
-        quartzPlusBaseService.addScheduleJob(jobRequest);
+        JobRequest jobRequestB = new JobRequest();
+        jobRequestB.setJobName("testSimpleJobB" + UUID.randomUUID());
+        jobRequestB.setJobClass("quartzplus.boot.job.TestSimpleJobB");
+        quartzPlusBaseService.addScheduleJob(jobRequestB);
+
+//        JobRequest jobRequestA = new JobRequest();
+//        jobRequestA.setJobName("testSimpleJobA" + UUID.randomUUID());
+//        jobRequestA.setJobClass("quartzplus.boot.job.TestSimpleJobA");
+//        quartzPlusBaseService.addScheduleJob(jobRequestA);
     }
 
     @Bean
