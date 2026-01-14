@@ -80,7 +80,7 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         schedulerFactoryBean.afterPropertiesSet();
 
         if (Objects.nonNull(openTelemetry)) {
-            QuartzTelemetry quartzTelemetry = QuartzTelemetry.create(openTelemetry);
+            QuartzTelemetry quartzTelemetry = QuartzTelemetry.builder(openTelemetry).setCaptureExperimentalSpanAttributes(true).build();
             quartzTelemetry.configure(schedulerFactoryBean.getScheduler());
         }
     }
