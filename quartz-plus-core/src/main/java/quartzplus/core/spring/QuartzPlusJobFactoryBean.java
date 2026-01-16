@@ -79,7 +79,7 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
 
         schedulerFactoryBean.afterPropertiesSet();
 
-        if (Objects.nonNull(openTelemetry)) {
+        if (Objects.nonNull(openTelemetry) && enableTrace(jobBeanClass)) {
             QuartzTelemetry quartzTelemetry = QuartzTelemetry.builder(openTelemetry).setCaptureExperimentalSpanAttributes(true).build();
             quartzTelemetry.configure(schedulerFactoryBean.getScheduler());
         }
@@ -93,6 +93,14 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
     @Override
     public Class<?> getObjectType() {
         return SchedulerFactoryBean.class;
+    }
+
+    private boolean enableTrace(Class jobBeanClass) {
+        if (jobBeanClass.isAnnotationPresent(QuartzPlusJob.class)) {
+            QuartzPlusJob annotation = (QuartzPlusJob) jobBeanClass.getAnnotation(QuartzPlusJob.class);
+            return annotation.enableTrace();
+        }
+        return false;
     }
 
     private SchedulerFactoryBean createSchedulerFactoryBean(Class jobBeanClass, ApplicationContext applicationContext) throws Exception {

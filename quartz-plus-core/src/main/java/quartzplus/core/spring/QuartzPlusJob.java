@@ -24,4 +24,6 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 public @interface QuartzPlusJob {
     String value() default "";
+
+    boolean enableTrace() default false;
 }
