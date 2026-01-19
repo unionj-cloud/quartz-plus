@@ -40,7 +40,7 @@
     <dependency>
       <groupId>io.github.unionj-cloud</groupId>
       <artifactId>quartz-plus-core</artifactId>
-      <version>0.0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

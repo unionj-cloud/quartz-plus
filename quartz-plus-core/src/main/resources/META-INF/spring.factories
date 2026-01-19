@@ -1,4 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-quartzplus.core.QuartzPlusCoreAutoConfiguration
-
 org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=quartzplus.core.QuartzPlusCoreExclusionFilter

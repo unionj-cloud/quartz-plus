@@ -22,7 +22,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
-import org.springframework.boot.autoconfigure.quartz.QuartzDataSourceInitializer;
 import org.springframework.boot.autoconfigure.quartz.QuartzDataSourceScriptDatabaseInitializer;
 import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
 import org.springframework.boot.autoconfigure.sql.init.OnDatabaseInitializationCondition;
@@ -63,9 +62,7 @@ public class QuartzPlusCoreAutoConfiguration {
         }
 
         @Bean
-        @SuppressWarnings("deprecation")
-        @ConditionalOnMissingBean({QuartzDataSourceScriptDatabaseInitializer.class,
-            QuartzDataSourceInitializer.class})
+        @ConditionalOnMissingBean(QuartzDataSourceScriptDatabaseInitializer.class)
         @Conditional(QuartzPlusCoreAutoConfiguration.JdbcStoreTypeConfiguration.OnQuartzDatasourceInitializationCondition.class)
         public QuartzDataSourceScriptDatabaseInitializer quartzDataSourceScriptDatabaseInitializer(
             DataSource dataSource, @QuartzDataSource ObjectProvider<DataSource> quartzDataSource,
