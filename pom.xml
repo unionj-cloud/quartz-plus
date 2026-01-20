@@ -11,10 +11,10 @@
   </parent>
 
   <groupId>io.github.unionj-cloud</groupId>
-  <artifactId>quartz-plus</artifactId>
+  <artifactId>quartz-plus-boot3</artifactId>
   <version>0.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>quartz-plus</name>
+  <name>quartz-plus-boot3</name>
   <description>A library to enhance quartz with multiple SchedulerFactoryBeans to have multiple independent job queues</description>
   <url>https://github.com/unionj-cloud/quartz-plus</url>
 
@@ -46,10 +46,10 @@
   </modules>
 
   <properties>
-    <maven.compiler.source>25</maven.compiler.source>
-    <maven.compiler.target>25</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>25</java.version>
+    <java.version>17</java.version>
     <hutool-all.version>5.8.39</hutool-all.version>
     <guava.version>33.4.0-jre</guava.version>
     <collections.version>4.5.0-M3</collections.version>

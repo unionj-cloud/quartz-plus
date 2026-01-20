@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.github.unionj-cloud</groupId>
-    <artifactId>quartz-plus</artifactId>
+    <artifactId>quartz-plus-boot3</artifactId>
     <version>0.0.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>quartz-plus-boot</artifactId>
-  <name>quartz-plus-boot</name>
+  <artifactId>quartz-plus-boot-boot3</artifactId>
+  <name>quartz-plus-boot-boot3</name>
 
   <dependencies>
     <dependency>
@@ -39,7 +39,7 @@
     </dependency>
     <dependency>
       <groupId>io.github.unionj-cloud</groupId>
-      <artifactId>quartz-plus-core</artifactId>
+      <artifactId>quartz-plus-core-boot3</artifactId>
       <version>${project.version}</version>
     </dependency>
 
