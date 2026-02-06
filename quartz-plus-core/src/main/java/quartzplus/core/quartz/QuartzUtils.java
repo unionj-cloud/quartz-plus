@@ -122,9 +122,11 @@ public class QuartzUtils {
         // Use IGNORE strategy: do not modify nextFireTime on misfire, keep the original trigger time
         // This ensures tasks execute in the original submission order, even if misfire occurs
         factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY);
+        if (jobRequest.getRepeatIntervalInSeconds() > 0) {
+            factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_REMAINING_REPEAT_COUNT);
+        }
         factoryBean.setRepeatInterval(jobRequest.getRepeatIntervalInSeconds() * 1000); //ms
         factoryBean.setRepeatCount(jobRequest.getRepeatCount());
-
         factoryBean.afterPropertiesSet();
         return factoryBean.getObject();
     }
