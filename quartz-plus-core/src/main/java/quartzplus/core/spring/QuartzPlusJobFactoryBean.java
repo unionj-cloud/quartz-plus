@@ -19,6 +19,7 @@ package quartzplus.core.spring;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.quartz.v2_0.QuartzTelemetry;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobListener;
 import org.quartz.TriggerListener;
 import org.springframework.beans.factory.DisposableBean;
@@ -164,6 +165,10 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         properties.setProperty("org.quartz.jobStore.tablePrefix", tablePrefix);
         properties.setProperty("org.quartz.jobStore.isClustered", String.valueOf(config.getClustered()));
 
+        if (StringUtils.isNotBlank(config.getDriverDelegateClass())) {
+            properties.setProperty("org.quartz.jobStore.driverDelegateClass", config.getDriverDelegateClass());
+        }
+
         schedulerFactoryBean.setQuartzProperties(properties);
         customizers.orderedStream().forEach((customizer) -> customizer.customize(schedulerFactoryBean));
 
@@ -204,6 +209,7 @@ public class QuartzPlusJobFactoryBean implements FactoryBean, InitializingBean, 
         config.setClustered(environment.getProperty(configPrefix + ".clustered", Boolean.class, config.getClustered()));
         config.setDescription(environment.getProperty(configPrefix + ".description", config.getDescription()));
         config.setAutoStartup(environment.getProperty(configPrefix + ".auto-startup", Boolean.class, config.getAutoStartup()));
+        config.setDriverDelegateClass(environment.getProperty(configPrefix + ".driver-delegate-class", String.class, config.getDriverDelegateClass()));
 
         return config;
     }

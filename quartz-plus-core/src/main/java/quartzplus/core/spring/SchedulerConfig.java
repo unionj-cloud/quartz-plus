@@ -61,4 +61,6 @@ public class SchedulerConfig {
      */
     private Boolean autoStartup = false;
 
+    private String driverDelegateClass;
+
 }
