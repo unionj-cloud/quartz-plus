@@ -16,7 +16,7 @@ import static org.quartz.TriggerKey.triggerKey;
 
 public class GroupBalanceTriggerDelegate extends StdJDBCDelegate {
 
-    private static final String additionalQuery = "AND NOT EXISTS(SELECT 1 FROM {0}FIRED_TRIGGERS qft WHERE qft.TRIGGER_GROUP = qt.TRIGGER_GROUP AND qft.SCHED_NAME = qt.SCHED_NAME)";
+    private static final String additionalQuery = "AND NOT EXISTS(SELECT 1 FROM {0}FIRED_TRIGGERS qft WHERE qft.JOB_GROUP = qt.JOB_GROUP AND qft.SCHED_NAME = qt.SCHED_NAME)";
 
     private String buildSql() {
         return "SELECT TRIGGER_NAME, TRIGGER_GROUP, NEXT_FIRE_TIME, PRIORITY FROM {0}TRIGGERS qt " +
